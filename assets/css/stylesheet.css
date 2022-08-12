@@ -1,0 +1,15 @@
+/* set custom style for input searchbox */
+form.form-input input[type="text"] {
+  padding: 14.5px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 100%;
+  background: #f1f1f1;
+  height: 50%;
+}
+
+/* custom margin for div tag */
+.set-margin {
+  margin-top: 0%;
+}
