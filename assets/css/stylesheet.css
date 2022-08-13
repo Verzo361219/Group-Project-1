@@ -20,15 +20,24 @@ form.form-input input[type="text"] {
   background-repeat: no-repeat;
   background-size: auto;
   z-index: 0;
-  height: 550px;
+  height: 400px;
   background-position: 10%, 0, 0, 5;
   padding: 10rem 5rem 2rem 20rem;
   margin-bottom: 2rem;
 }
+
+body {
+  background-color: slategrey;
+}
+
 h1 {
 
   font-size: 100px;
   color:aliceblue;
-  font-family: 'Rubik Burned', cursive;
+  font-family: 'Rubik Marker Hatch', cursive;
 
 }
+
+h3 {
+  font-family: 'Rubik Distressed', cursive;
+  color: white;
