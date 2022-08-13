@@ -9,7 +9,25 @@ form.form-input input[type="text"] {
   height: 50%;
 }
 
-/* custom margin for div tag */
+/*custom margin for div tag */
 .set-margin {
   margin-top: 0%;
+}
+
+.jumbotron {
+  background-image:  url("https://www.bestfoods.com/content/dam/unilever/hellmann_s_world/global/digital_and_online/wrap_lp-63808006-jpg.jpg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  z-index: 0;
+  height: 550px;
+  background-position: 10%, 0, 0, 5;
+  padding: 10rem 5rem 2rem 20rem;
+  margin-bottom: 2rem;
+}
+h1 {
+
+  font-size: 100px;
+  color:aliceblue;
+  font-family: 'Rubik Burned', cursive;
+
 }
