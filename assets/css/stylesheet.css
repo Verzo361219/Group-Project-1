@@ -1,0 +1,58 @@
+
+
+
+/* set custom style for input searchbox */
+form.form-input input[type="text"] {
+  padding: 14.5px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 100%;
+  background: #f1f1f1;
+  height: 50%;
+}
+
+/*custom margin for div tag */
+.set-margin {
+  margin-top: 0%;
+}
+/*Styling for jumbotron*/
+
+.jumbotron {
+  background-image:  url("https://www.bestfoods.com/content/dam/unilever/hellmann_s_world/global/digital_and_online/wrap_lp-63808006-jpg.jpg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  z-index: 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: top left;
+  margin-bottom: 2rem;
+  justify-content: center;
+  display: flex;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+body {
+  background-color: slategrey;
+}
+
+h1 {
+
+  font-size: 80px;
+  color:aliceblue;
+  text-shadow: 2px 2px black;
+  font-family: 'Rubik Marker Hatch', cursive;
+  font-display: auto;
+  justify-content: center;
+
+}
+
+h4 {
+  font-family: 'Rubik Distressed', cursive;
+  color: white;
+  text-shadow: 2px 2px black;
+}
+
+
