@@ -1,7 +1,20 @@
 var mainContainer = document.querySelector('.container');
+var searchInput = document.querySelector('#searchMealInput');;
+var searchBtn =  document.querySelector('#btnSearch');
 
-function displayMeal(){
-var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=ground_beef' 
+searchBtn.addEventListener("click", handleMealFetch);
+
+function handleMealFetch(event) {
+    event.preventDefault();
+        console.log("item Searched")
+        console.log(searchInput.value)
+        var mealSearch = searchInput.value
+        console.log(mealSearch)
+        displayMeals(mealSearch)
+    };
+
+function displayMeals(mealSearch){
+var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealSearch 
     fetch(requestUrl)
         .then (function (response) {
             return response.json();
@@ -42,11 +55,12 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=ground_be
                     return response.json();
                 })
                 .then (function (data1) {
-                    console.log(data1);
-        //             var instructionsList = document.createElement('li');
-        //             instructionsList.classList.add("card-text");
-        //             cardBody.appendChild(instructionsList);
-        //             instructionsList.textContent = data1.meals[0].strInstructions;
+                    console.log(data.meals[0].strMeal);
+                    console.log(data.meals[0].strMealThumb);
+                    // var instructionsList = document.createElement('li');
+                    // instructionsList.classList.add("card-text");
+                    // cardBody.appendChild(instructionsList);
+                    // instructionsList.textContent = data1.meals[0].strInstructions;
 
         //             var ingredientsList = document.createElement("ul")
         //             ingredientsList.classList.add("card-text");
@@ -73,7 +87,4 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=ground_be
         //                 console.log(ingredients);
                 })
             })
-        }
-        
-
-    displayMeal()
+        };
