@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+}
+
+
 /* set custom style for input searchbox */
 form.form-input input[type="text"] {
   padding: 14.5px;
@@ -20,10 +25,14 @@ form.form-input input[type="text"] {
   background-repeat: no-repeat;
   background-size: auto;
   z-index: 0;
-  height: 400px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   background-position: top left;
-  padding: 9rem 0rem 0rem 3rem;
+  padding: 9rem 0rem 9rem 9rem;
   margin-bottom: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 body {
@@ -34,10 +43,17 @@ h1 {
 
   font-size: 90px;
   color:aliceblue;
+  text-shadow: 2px 2px black;
   font-family: 'Rubik Marker Hatch', cursive;
+  font-display: auto;
+  justify-content: center;
 
 }
 
 h3 {
   font-family: 'Rubik Distressed', cursive;
   color: white;
+  text-shadow: 2px 2px black;
+}
+
+
