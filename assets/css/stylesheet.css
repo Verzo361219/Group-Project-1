@@ -1,6 +1,4 @@
-* {
-  box-sizing: border-box;
-}
+
 
 
 /* set custom style for input searchbox */
@@ -30,8 +28,9 @@ form.form-input input[type="text"] {
   -o-background-size: cover;
   background-size: cover;
   background-position: top left;
-  padding: 9rem 0rem 9rem 9rem;
   margin-bottom: 2rem;
+  justify-content: center;
+  display: flex;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -41,7 +40,7 @@ body {
 
 h1 {
 
-  font-size: 90px;
+  font-size: 80px;
   color:aliceblue;
   text-shadow: 2px 2px black;
   font-family: 'Rubik Marker Hatch', cursive;
@@ -50,7 +49,7 @@ h1 {
 
 }
 
-h3 {
+h4 {
   font-family: 'Rubik Distressed', cursive;
   color: white;
   text-shadow: 2px 2px black;
