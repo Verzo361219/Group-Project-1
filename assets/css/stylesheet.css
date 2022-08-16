@@ -55,6 +55,16 @@ h4 {
   text-shadow: 2px 2px black;
 }
 
+.customfooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 50px;
+  background-color: rgb(98, 105, 122);
+  color: white;
+}
+
 
 
 
