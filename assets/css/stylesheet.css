@@ -65,4 +65,11 @@ h4 {
   color: white;
 }
 
+card-image img {
+  height: 180px;
+  object-fit: cover;
+}
+.card-tile {
+box-shadow: 0 2 black ;
 
+}
