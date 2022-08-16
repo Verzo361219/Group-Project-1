@@ -1,5 +1,5 @@
-var mainContainer = document.querySelector('.container');
-var searchInput = document.querySelector('#searchMealInput');;
+var cardContainer = document.querySelector('.cardContainer');
+var searchInput = document.querySelector('#searchMealInput');
 var searchBtn =  document.querySelector('#btnSearch');
 
 searchBtn.addEventListener("click", handleMealFetch);
@@ -21,25 +21,39 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
         })
         .then (function (data) {
             console.log(data);
-            // var columnDiv = document.createElement('div');
-            // mainContainer.appendChild(columnDiv);
-            // // columnDiv.classList.add("col", "align-self-left");
 
-            // var card = document.createElement('div');
-            // columnDiv.appendChild(card);
-            // card.classList.add("card", "border-dark", "mb-3", "row");
-        
-            // var cardBody = document.createElement('div');
-            // card.appendChild(cardBody);
-            // cardBody.classList.add("card-body","text-left");
+            var card = document.createElement('div')
+            $(cardContainer).append(card);
+            card.classList.add("card");
+
+            var cardImage = document.createElement('div');
+            card.appendChild(cardImage);
+            cardImage.classList.add("card-image");
+            
+            var mealImageURL = data.meals[0].strMealThumb;
+            var mealImageDisplay = document.createElement('img');
+            mealImageDisplay.setAttribute('src', mealImageURL)
+            $(cardImage).append(mealImageDisplay);
+
+            var mealName = document.createElement('span');
+            $(cardImage).append(mealName);
+            mealName.classList.add("card-title")
+            mealName.textContent = data.meals[0].strMeal
+
+            var addBtn = document.createElement("a")
+            addBtn.classList.add("btn-floating", "halfway-fab", "waves-effect", "waves-light", "red");
+            $(cardImage).append(addBtn);
+
+            var addIcon = document.createElement("i");
+            addIcon.classList.add("material-icons");
+            addIcon.innerHTML = "add";
+            $(addBtn).append(addIcon);
+
 
             // var mealName = document.createElement('h4');
             // mealName.classList.add("card-title")
         
-            // var mealThumbURL = data.meals[0].strMealThumb;
-            // var mealThumbDisplay = document.createElement('img');
-            // mealThumbDisplay.setAttribute('src', mealThumbURL)
-            // mealThumbDisplay.setAttribute('width', "25%");
+
 
             // cardBody.appendChild(mealName);
             // cardBody.appendChild(mealThumbDisplay)

@@ -55,4 +55,13 @@ h4 {
   text-shadow: 2px 2px black;
 }
 
+.card-image img {
+      height: 180px;
+      object-fit: cover;
+}
+.card-tile {
+  box-shadow: 0 2 black ;
+
+}
+
 
