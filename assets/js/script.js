@@ -1,7 +1,7 @@
 var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "https://cors-anywhere.herokuapp.com/https://api.kroger.com/v1/connect/oauth2/token",
+    "url": "https://api.kroger.com/v1/connect/oauth2/token",
     "method": "POST",
     "headers": {
       "Content-Type": "application/x-www-form-urlencoded",
