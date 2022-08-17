@@ -9,6 +9,11 @@ form.form-input input[type="text"] {
   height: 50%;
 }
 
+/* set custom style for search button */
+form.form-input a[type="search"] {
+  width: 100%;
+}
+
 /*custom margin for div tag */
 .set-margin {
   margin-top: 0%;
@@ -52,8 +57,14 @@ h4 {
   text-shadow: 2px 2px black;
 }
 
+.card-image img {
+     
+      object-fit: cover;
+}
+
+
 .customfooter {
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
@@ -61,11 +72,14 @@ h4 {
   color:aliceblue;
 }
 
-card-image img {
-  height: 180px;
-  object-fit: cover;
+.btn-margin{
+  margin: 15px;
 }
-.card-tile {
-box-shadow: 0 2 black ;
 
+.card-image img{
+  margin-top: 10px;
 }
+
+
+
+

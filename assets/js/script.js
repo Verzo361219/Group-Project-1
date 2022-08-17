@@ -21,28 +21,47 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
         })
         .then (function (data) {
             console.log(data);
-
+            console.log(data.meals.length);
+            for (var i = 0; i < data.meals.length; i++) {
             var card = document.createElement('div')
             $(cardContainer).append(card);
-            card.classList.add("card");
+            card.classList.add("card","col", "s12", "m6", "l4");
+            card.style.marginLeft ="5px";
+            card.style.width ="32.33%";
 
             var cardImage = document.createElement('div');
             card.appendChild(cardImage);
             cardImage.classList.add("card-image");
             
-            var mealImageURL = data.meals[0].strMealThumb;
+            var mealImageURL = data.meals[i].strMealThumb;
             var mealImageDisplay = document.createElement('img');
             mealImageDisplay.setAttribute('src', mealImageURL)
             $(cardImage).append(mealImageDisplay);
 
             var mealName = document.createElement('span');
-            $(cardImage).append(mealName);
+            var cardContent = document.createElement('div')
+            $(card).append(cardContent);
+            cardContent.classList.add("card-content","center-align");
+            cardContent.style.padding = "0px"
+            $(cardContent).append(mealName);
             mealName.classList.add("card-title")
-            mealName.textContent = data.meals[0].strMeal
+            mealName.style.fontWeight ="bold";
+            mealName.style.fontSize ="20px";
+            mealName.style.marginBottom ="0px";
+            mealName.textContent = data.meals[i].strMeal
+
+            var recipeBtn = document.createElement("a")
+            recipeBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+            $(cardContent).append(recipeBtn);
+
+            var addIcon = document.createElement("i");
+            addIcon.classList.add("material-icons");
+            addIcon.innerHTML = "message";
+            $(recipeBtn).append(addIcon);
 
             var addBtn = document.createElement("a")
-            addBtn.classList.add("btn-floating", "halfway-fab", "waves-effect", "waves-light", "red");
-            $(cardImage).append(addBtn);
+            addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+            $(cardContent).append(addBtn);
 
             var addIcon = document.createElement("i");
             addIcon.classList.add("material-icons");
@@ -100,5 +119,5 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
         //                 console.log(measurements);
         //                 console.log(ingredients);
                 })
-            })
+}})
         };
