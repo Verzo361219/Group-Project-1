@@ -62,6 +62,13 @@ h4 {
   object-fit: cover;
 }
 
+
+#shoppingList {
+  color: white;
+  font-size: x-large;
+  text-align: center;
+}
+
 .customfooter {
   position: relative;
   bottom: 0;
