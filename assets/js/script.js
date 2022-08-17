@@ -43,7 +43,7 @@ console.log(list)
 var settings2 = {
     "async": true,
     "crossDomain": true,
-    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term=chicken&filter.locationId=01400943&filter.limit=1",
+    "url": "https://cors-anywhere.herokuapp.com/https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term=chicken&filter.locationId=01400943&filter.limit=1",
     "method": "GET",
     "headers": {
       "Access-Control-Allow-Origin": "https://verzo361219.github.io/Group-Project-1/",
