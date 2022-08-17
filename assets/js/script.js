@@ -1,22 +1,4 @@
-// var settings = {
-//     "async": true,
-//     "crossDomain": true,
-//     "url": "https://api.kroger.com/v1/connect/oauth2/token",
-//     "method": "POST",
-//     "headers": {
-//        "Access-Control-Allow-Origin": "https://verzo361219.github.io/Group-Project-1/",
-//       "Content-Type": "application/x-www-form-urlencoded",
-//       "Authorization": "Basic d2hhdHNmb3JkaW5uZXJ0b25pZ2h0LWRiMGQ5YjM0NjJmM2JjOWVkZmVmMDY5MjQyMTE4ZTA1NDcwNDgxNjA4MjEwNjU4MTQzMTpjN0xkNnB2WFF3alNJa0ZvMVQ4aTdOR3NWcm1oaWVGbUhRRzJkck90"
-//     },
-//     "data": {
-//       "grant_type": "client_credentials",
-//       "scope": "product.compact"
-//     }
-//   }
-
-//   $.ajax(settings).done(function (response) {
-//     console.log(response.access_token);
-//   });
+//access token fetch request
 var getToken = {
   async: true,
   crossDomain: true,
@@ -36,7 +18,7 @@ $.ajax(getToken).done(function (response) {
   console.log(response);
 });
 
-
+//api pull to the kroger api using the earlier created access token
 
 var list = $("#shoppingList")
 console.log(list)
@@ -55,6 +37,7 @@ var settings2 = {
   $.ajax(settings2).done(function (response) {
     console.log(response);
   })
+  //this function finds and displays the price information on selected items through the kroger api
   .then(function(data2){
     var price = data2.data[0].items[0].price.regular
     console.log(price)
