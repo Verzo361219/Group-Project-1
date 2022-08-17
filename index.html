@@ -40,7 +40,32 @@
 
         </div>
         <div class="modalContainer">
+            <div id="modal1" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h4 class="recipe-title">${meal.strMeal}</h4>
+                    <div class="recipe-meal-img">
+                        <img id="mealThumb" src="./assets/Images/wrap_lp-63808006-jpg.webp" alt = "${meal.strMeal}">
+                    </div>
+                    <div class="recipe-link">
+                        <a id="videoURL" href="${meal.strYoutube}" target = "_blank">Watch Video</a>
+                    </div>
+                    <!-- <p class="recipe-category">${meal.strCategory}</p> -->
+                    <div>
+                        <h5>Instructions:</h5>
+                        <p class="recipe-instructions">${meal.strInstructions}</p>
+                    </div>
+                    <div class="recipe-ingredients">
+                        <h5>Ingredients:</h5>
+                        <ul class="ingredients-list">
+                        </ul>
+                    </div>
 
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-red red lighten-2 btn"><i class="material-icons left">close</i>close</a>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn indigo"><i class="material-icons left">add_box</i>Add To List</a>
+                </div>
+            </div>
         </div>
         </aside>
             <div class="col  m6 l6">

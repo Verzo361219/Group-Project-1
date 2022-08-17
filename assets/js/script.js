@@ -1,8 +1,15 @@
 var cardContainer = document.querySelector('.cardContainer');
 var searchInput = document.querySelector('#searchMealInput');
 var searchBtn =  document.querySelector('#btnSearch');
-var ingredientsList = document.querySelector('.ingredients-list')
-var modalContainer = document.querySelector('.modalContainer')
+var ingredientsList = document.querySelector('.ingredients-list');
+var modalContainer = document.querySelector('.modalContainer');
+var modalMeal = document.querySelector('.recipe-title');
+// var modalCategory = document.querySelector('.recipe-category');
+var modalInstructions = document.querySelector('.recipe-instructions');
+var modalIngredients = document.querySelector('.ingredients-list');
+var modalURL = document.querySelector('#videoURL');
+var modalThumb = document.querySelector('#mealThumb');
+
 
 searchBtn.addEventListener("click", handleMealFetch);
 
@@ -14,6 +21,10 @@ function handleMealFetch(event) {
         console.log(mealSearch)
         displayMeals(mealSearch)
     };
+
+$(document).ready(function(){
+    $('.modal').modal()
+    });
 
 function displayMeals(mealSearch){
 var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealSearch 
@@ -74,6 +85,7 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             $(addBtn).append(addIcon);
             }
         });
+}
 
 function getMealRecipe(meal){
     meal.preventDefault();
@@ -95,89 +107,27 @@ function getMealRecipe(meal){
 function mealRecipeModal(meal){
     console.log(meal);
     meal = meal[0];
-    var modalHTML = `<div id="modal1" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <h4 class="recipe-title">${meal.strMeal}</h4>
-        <div class="recipe-meal-img">
-            <img src="${meal.strMealThumb}" alt = "${meal.strMeal}">
-        </div>
-        <p class="recipe-category">${meal.strCategory}</p>
-        <div class="recipe-instructions">
-            <h5>Instructions:</h5>
-            <p>${meal.strInstructions}</p>
-        </div>
-        <div class="recipe-ingredients">
-            <h5>Ingredients:</h5>
-            <ul class="ingredients-list">
-                <li>Test</li>
-                <li>Test</li>
-                <li>Test</li>
-                <li>Test</li>
-                <li>Test</li>
-            </ul>
-        </div>
-        <div class="recipe-link">
-            <a href="${meal.strYoutube}" target = "_blank">Watch Video</a>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-red red lighten-2 btn"><i class="material-icons left">close</i>close</a>
-        <a href="#!" class="modal-action modal-close waves-effect waves-light btn indigo"><i class="material-icons left">add_box</i>Add To List</a>
-    </div>
-</div>`;
-    $(modalContainer).html(modalHTML);
-    $(document).ready(function(){
-        $('.modal').modal();
-    });
-}}
 
-            // var mealName = document.createElement('h4');
-            // mealName.classList.add("card-title")
-        
+    //Updates Recipe Modal to reflect selected meal
+        modalMeal.textContent = meal.strMeal
+        // modalCategory.textContent = meal.strCategory;
+        modalInstructions.textContent = meal.strInstructions;
+        modalURL.setAttribute("href", meal.strYoutube);
+        modalThumb.setAttribute("src", meal.strMealThumb);
 
-
-            // cardBody.appendChild(mealName);
-            // cardBody.appendChild(mealThumbDisplay)
-
-            // mealName.textContent = data.meals[0].strMeal;
-
-            // var mealID = data.meals[0].idMeal;
-            // console.log(mealID);
-
-            // var requestMealURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealID;
-            // fetch(requestMealURL)
-            //     .then(function (response) {
-            //         return response.json();
-            //     })
-            //     .then (function (data1) {
-            //         console.log(data.meals[0].strMeal);
-            //         console.log(data.meals[0].strMealThumb);
-                    // var instructionsList = document.createElement('li');
-                    // instructionsList.classList.add("card-text");
-                    // cardBody.appendChild(instructionsList);
-                    // instructionsList.textContent = data1.meals[0].strInstructions;
-
-        //             var ingredientsList = document.createElement("ul")
-        //             ingredientsList.classList.add("card-text");
-        //             cardBody.appendChild(ingredientsList);
-
-        //             console.log("test: " , data1.meals[0])
-
-        //             var meal = data1.meals[0];
-        //             var ingredients = []
-        //             var measurements = []
-        //             for (var e = 1; e < 21; e++) {
-        //                 if (meal["strIngredient" + e] === ''){
-        //                     continue;
-        //                 }
-        //                 ingredients.push(meal["strIngredient" + e]);
-        //                 measurements.push(meal["strMeasure" + e]);
-                        
-        //                 var ingredientsListItems = document.createElement('li')
-        //                 ingredientsList.appendChild(ingredientsListItems);
-        //                 ingredientsListItems.innerHTML = meal["strMeasure" + e] + "   " + meal["strIngredient" + e];
-        //             }
-                                            
-        //                 console.log(measurements);
-        //                 console.log(ingredients);
+    // Creates Ingredients List
+        var ingredients = []
+        var measurements = []
+        for (var e = 1; e < 21; e++) {
+            if (meal["strIngredient" + e] === ''){
+                continue;
+            }
+            ingredients.push(meal["strIngredient" + e]);
+            measurements.push(meal["strMeasure" + e]);
+            
+            var ingredientsListItems = document.createElement('li')
+            modalIngredients.appendChild(ingredientsListItems);
+            ingredientsListItems.innerHTML = meal["strMeasure" + e] + "   " + meal["strIngredient" + e];
+        }
+}
                 
