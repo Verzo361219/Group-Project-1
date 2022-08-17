@@ -16,12 +16,11 @@ var getToken = {
 
 $.ajax(getToken).done(function (response) {
   console.log(response);
-});
-
-//api pull to the kroger api using the earlier created access token
-
-var list = $("#shoppingList")
-console.log(list)
+  
+  var token = response.access_token
+  console.log(token)
+  var list = $("#shoppingList")
+//api pull from the kroger api using the created token
 var settings2 = {
     "async": true,
     "crossDomain": true,
@@ -30,7 +29,7 @@ var settings2 = {
     "headers": {
       "Access-Control-Allow-Origin": "https://verzo361219.github.io/Group-Project-1/",
       "Accept": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJhdWQiOiJ3aGF0c2ZvcmRpbm5lcnRvbmlnaHQtZGIwZDliMzQ2MmYzYmM5ZWRmZWYwNjkyNDIxMThlMDU0NzA0ODE2MDgyMTA2NTgxNDMxIiwiZXhwIjoxNjYwNzY5NjM5LCJpYXQiOjE2NjA3Njc4MzQsImlzcyI6ImFwaS5rcm9nZXIuY29tIiwic3ViIjoiYTMwNmM3NGItYzM1ZC01MjNmLWFmNDgtN2U5YWYyMzE1MGIwIiwic2NvcGUiOiJwcm9kdWN0LmNvbXBhY3QiLCJhdXRoQXQiOjE2NjA3Njc4MzkzMDIxMzExMzUsImF6cCI6IndoYXRzZm9yZGlubmVydG9uaWdodC1kYjBkOWIzNDYyZjNiYzllZGZlZjA2OTI0MjExOGUwNTQ3MDQ4MTYwODIxMDY1ODE0MzEifQ.nXPHaHYghwfAQHcfoO7eLPZYIye4TmUsNWZXur-ivp90AjU8D4YWJvgX2QIpy2YyY0t7x0rSHZ_a92tKZJOO3AKQlRV6S38IWQfWGvD9BAYRwqkoDnLORPT7zSs9Cf7jWoSjQnoKemioE9J0SD9zFdraSc9zTXcypscngDQx3HSHa6X7BFFKgOoejglTuPXl376rAIJXelJHm8Zf9el7hOp8TmljbIGCrRKOhP2B0TZ1iOY5kPnmqXNZHLJj7HBWswm2cj_KGobUTR15Q7EiHuWQgcKgDtSD3O09WlMOX1P6GVkYEPDNFPvUH8mBHKPFRLbpllcUUcOdgyUllADMaw"
+      "Authorization": "Bearer " + token 
     }
   }
   
@@ -41,11 +40,16 @@ var settings2 = {
   .then(function(data2){
     var price = data2.data[0].items[0].price.regular
     console.log(price)
-    console.log(list)
+    
     var item = document.createElement('li')
     item.textContent = "$ " + price
-    console.log(item)
+    
     $(item).appendTo(list)
     
   })
  
+});
+
+
+
+
