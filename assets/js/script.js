@@ -46,7 +46,7 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             $(cardContent).append(mealName);
             mealName.classList.add("card-title")
             mealName.style.fontWeight ="bold";
-            mealName.style.fontSize ="20px";
+            mealName.style.fontSize ="18px";
             mealName.style.marginBottom ="0px";
             mealName.textContent = data.meals[i].strMeal
 
