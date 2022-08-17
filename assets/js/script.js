@@ -19,12 +19,13 @@ $.ajax(getToken).done(function (response) {
   
   var token = response.access_token
   console.log(token)
+  var fooditem = "chicken"
   var list = $("#shoppingList")
 //api pull from the kroger api using the created token
 var settings2 = {
     "async": true,
     "crossDomain": true,
-    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term=chicken&filter.locationId=01400943&filter.limit=1",
+    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term="+fooditem+"&filter.locationId=01400943&filter.limit=1",
     "method": "GET",
     "headers": {
       "Access-Control-Allow-Origin": "https://verzo361219.github.io/Group-Project-1/",
