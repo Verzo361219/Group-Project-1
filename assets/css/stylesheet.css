@@ -38,6 +38,7 @@ form.form-input a[type="search"] {
 
 body {
   background-color: slategrey;
+  height: 100vh;
 }
 
 h1 {
