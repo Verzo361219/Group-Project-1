@@ -55,6 +55,13 @@ h4 {
   text-shadow: 2px 2px black;
 }
 
+
+#shoppingList {
+  color: white;
+  font-size: x-large;
+  text-align: center;
+}
+
 .customfooter {
   position: absolute;
   bottom: 0;
@@ -73,6 +80,5 @@ h4 {
   box-shadow: 0 2 black ;
 
 }
-
 
 
