@@ -31,7 +31,7 @@
                     <input placeholder="Search for Meal" id="searchMealInput" type="text" size="30" name="search">
                  </div>
                 <div class="input-field col s4 set-margin">
-                    <a class="btn waves-effect waves-light btn-large indigo" id="btnSearch" type="search"><i class="material-icons left">search</i>Search </a>
+                    <a class="btn waves-effect waves-light btn-large indigo modal-trigger" href="#errorModal" id="btnSearch" type="search"><i class="material-icons left">search</i>Search </a>
                 </div>
             </div>
         </form>
@@ -63,7 +63,16 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-red red lighten-2 btn"><i class="material-icons left">close</i>close</a>
-                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn indigo"><i class="material-icons left">add_box</i>Add To List</a>
+                    <a href="#!" class="listAdd modal-action modal-close waves-effect waves-light btn indigo"><i class="material-icons left">add_box</i>Add To List</a>
+                </div>
+            </div>
+            <!-- Error Modal -->
+            <div id="errorModal" class="modal">
+                <div class="modal-content">
+                    <h4>I'm sorry. Your search was unsuccessful. Please search another ingredient</h4>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn red">Close</a>
                 </div>
             </div>
         </div>
@@ -71,12 +80,10 @@
             <div class="col  m6 l6">
                 <h4 class="center-align add_shopping_cart"> Shopping List</h4>
 <!-- Placeholder for shopping list data -->
-            <section>
-                <ul  id="shoppingList">
-
-                </ul>
-
-            </section>
+                <section>
+                    <ul  id="shopping-list">
+                    </ul>
+                </section>
             </div>
         </aside> 
     </div>  

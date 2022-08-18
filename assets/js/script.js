@@ -1,3 +1,18 @@
+var cardContainer = document.querySelector('.cardContainer');
+var searchInput = document.querySelector('#searchMealInput');
+var searchBtn =  document.querySelector('#btnSearch');
+var ingredientsList = document.querySelector('.ingredients-list');
+var modalContainer = document.querySelector('.modalContainer');
+var modalMeal = document.querySelector('.recipe-title');
+var modalInstructions = document.querySelector('.recipe-instructions');
+var modalIngredients = document.querySelector('.ingredients-list');
+var modalURL = document.querySelector('#videoURL');
+var modalThumb = document.querySelector('#mealThumb');
+var shoppingList = document.querySelector('#shopping-list');
+var modalListAdd = document.querySelector('.listAdd');
+var shoppingListItems = '';
+var token = ''
+
 
 //access token fetch request
 var getToken = {
@@ -18,14 +33,19 @@ var getToken = {
 $.ajax(getToken).done(function (response) {
   console.log(response);
   
-  var token = response.access_token
+  token = response.access_token
   console.log(token)
-  var list = $("#shoppingList")
+})
+
 //api pull from the kroger api using the created token
-var settings2 = {
+function getKrogerPrice(searchItem) {
+  console.log(searchItem)
+  var price = ''
+
+  var settings2 = {
     "async": true,
     "crossDomain": true,
-    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term=chicken&filter.locationId=01400943&filter.limit=1",
+    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term="  + searchItem.split(" ").join("%20") + "&filter.locationId=01400943&filter.limit=1",
     "method": "GET",
     "headers": {
       "Access-Control-Allow-Origin": "https://verzo361219.github.io/Group-Project-1/",
@@ -33,54 +53,40 @@ var settings2 = {
       "Authorization": "Bearer " + token 
     }
   }
-  
-  $.ajax(settings2).done(function (response) {
+
+  return $.ajax(settings2).done(function (response) {
     console.log(response);
   })
   //this function finds and displays the price information on selected items through the kroger api
   .then(function(data2){
-    var price = data2.data[0].items[0].price.regular
+    price = data2.data[0].items[0].price.regular
     console.log(price)
-    
-    var item = document.createElement('li')
-    item.textContent = "$ " + price
-    
-    $(item).appendTo(list)
-    
+    return [price, searchItem];
   })
- 
-});
-
-
-
-
-
-var cardContainer = document.querySelector('.cardContainer');
-var searchInput = document.querySelector('#searchMealInput');
-var searchBtn =  document.querySelector('#btnSearch');
-var ingredientsList = document.querySelector('.ingredients-list');
-var modalContainer = document.querySelector('.modalContainer');
-var modalMeal = document.querySelector('.recipe-title');
-// var modalCategory = document.querySelector('.recipe-category');
-var modalInstructions = document.querySelector('.recipe-instructions');
-var modalIngredients = document.querySelector('.ingredients-list');
-var modalURL = document.querySelector('#videoURL');
-var modalThumb = document.querySelector('#mealThumb');
-
+};
 
 searchBtn.addEventListener("click", handleMealFetch);
 
+modalListAdd.addEventListener("click", createShoppingList)
+
 function handleMealFetch(event) {
     event.preventDefault();
-        console.log("item Searched")
-        console.log(searchInput.value)
-        var mealSearch = searchInput.value
+    console.log("item Searched")
+    console.log(searchInput.value)
+        // if (searchInput.value === '') {
+        //   $(document).ready(function(){
+        //     $('#errorModal').modal()
+        //   })
+        //   console.log("error")
+        // }else {
+        var mealSearch = searchInput.value.trim()
         console.log(mealSearch)
         displayMeals(mealSearch)
-    };
+      // }
+};
 
 $(document).ready(function(){
-    $('.modal').modal()
+    $('#modal1').modal()
     });
 
 function displayMeals(mealSearch){
@@ -180,12 +186,30 @@ function mealRecipeModal(meal){
                 continue;
             }
             ingredients.push(meal["strIngredient" + e]);
+
             measurements.push(meal["strMeasure" + e]);
             
             var ingredientsListItems = document.createElement('li')
             modalIngredients.appendChild(ingredientsListItems);
             ingredientsListItems.innerHTML = meal["strMeasure" + e] + "   " + meal["strIngredient" + e];
         }
+        shoppingListItems = ingredients;
 }
-                
 
+function createShoppingList() {
+  if (shoppingList.innerHTML === '') {
+  console.log(shoppingListItems)   
+    for (var i = 0; i < shoppingListItems.length; i++) {
+    getKrogerPrice(shoppingListItems[i]).then(function(krogerPrice){
+      var listItems = document.createElement('li')
+      listItems.innerHTML = krogerPrice[1] + " $" +  krogerPrice[0]
+      shoppingList.appendChild(listItems)
+      })
+    }
+  }else {
+    shoppingList.innerHTML = ''
+    createShoppingList()
+  }
+// Scrolls to the top of the webpage after a mean is added to the shopping list
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
+};
