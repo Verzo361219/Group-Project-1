@@ -52,9 +52,6 @@ var settings2 = {
 });
 
 
-
-
-
 var cardContainer = document.querySelector('.cardContainer');
 var searchInput = document.querySelector('#searchMealInput');
 var searchBtn =  document.querySelector('#btnSearch');
@@ -121,7 +118,6 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             mealName.style.marginBottom ="0px";
             if(data.meals[i].strMeal.length > 17){
                 mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
-                console.log("max ", data.meals[i].strMeal.substring(0,19))
                 mealName.classList.add("tooltip")
                 var tooltipText = document.createElement('span');
                 mealName.appendChild(tooltipText)
