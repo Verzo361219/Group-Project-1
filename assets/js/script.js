@@ -112,10 +112,10 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             cardContent.classList.add("card-content","center-align");
             cardContent.style.padding = "0px"
             $(cardContent).append(mealName);
-            mealName.classList.add("card-title")
-            mealName.style.fontWeight ="bold";
-            mealName.style.fontSize ="18px";
-            mealName.style.marginBottom ="0px";
+            mealName.classList.add("card-title","customcardtitle")
+            // mealName.style.fontWeight ="bold";
+            // mealName.style.fontSize ="18px";
+            // mealName.style.marginBottom ="0px";
 
             // Displayed limited character as title and full name is displayed while hoverd to content
             // Added tooltip for tilte
@@ -129,7 +129,6 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             }
             else{
                 mealName.textContent = data.meals[i].strMeal
-                console.log("min ", data.meals[i].strMeal)
             }
            
             var recipeBtn = document.createElement("a")
