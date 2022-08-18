@@ -116,6 +116,9 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             mealName.style.fontWeight ="bold";
             mealName.style.fontSize ="18px";
             mealName.style.marginBottom ="0px";
+
+            // Displayed limited character as title and full name is displayed while hoverd to content
+            // Added tooltip for tilte
             if(data.meals[i].strMeal.length > 17){
                 mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
                 mealName.classList.add("tooltip")
@@ -123,14 +126,12 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
                 mealName.appendChild(tooltipText)
                 tooltipText.classList.add("tooltiptext")
                 tooltipText.textContent = data.meals[i].strMeal
-
             }
             else{
                 mealName.textContent = data.meals[i].strMeal
                 console.log("min ", data.meals[i].strMeal)
             }
            
-
             var recipeBtn = document.createElement("a")
             recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
             recipeBtn.href = "#modal1"
