@@ -93,8 +93,8 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             var card = document.createElement('div')
             $(cardContainer).append(card);
             card.classList.add("card","col", "s12", "m6", "l4");
-            card.style.marginLeft ="5px";
-            card.style.width ="32.33%";
+            card.style.marginCenter ="4px";
+            card.style.width ="33.3%";
             card.setAttribute("dataid", data.meals[i].idMeal)
 
             var cardImage = document.createElement('div');
