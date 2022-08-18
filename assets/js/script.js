@@ -119,7 +119,21 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             mealName.style.fontWeight ="bold";
             mealName.style.fontSize ="18px";
             mealName.style.marginBottom ="0px";
-            mealName.textContent = data.meals[i].strMeal
+            if(data.meals[i].strMeal.length > 17){
+                mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
+                console.log("max ", data.meals[i].strMeal.substring(0,19))
+                mealName.classList.add("tooltip")
+                var tooltipText = document.createElement('span');
+                mealName.appendChild(tooltipText)
+                tooltipText.classList.add("tooltiptext")
+                tooltipText.textContent = data.meals[i].strMeal
+
+            }
+            else{
+                mealName.textContent = data.meals[i].strMeal
+                console.log("min ", data.meals[i].strMeal)
+            }
+           
 
             var recipeBtn = document.createElement("a")
             recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");

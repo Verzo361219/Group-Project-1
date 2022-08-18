@@ -38,7 +38,7 @@ form.form-input a[type="search"] {
 
 body {
   background-color: slategrey;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 h1 {
@@ -76,6 +76,7 @@ h4 {
   /* Set the fixed height of the footer here */
   height: 60px;
   color:aliceblue;
+  display: none;
 }
 
 .btn-margin{
@@ -132,6 +133,29 @@ h4 {
 }
 .recipe-link a:hover{
   opacity: 0.8;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(255, 6, 6);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 
 
