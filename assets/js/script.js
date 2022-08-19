@@ -65,6 +65,7 @@ var modalURL = document.querySelector('#videoURL');
 var modalThumb = document.querySelector('#mealThumb');
 
 
+
 searchBtn.addEventListener("click", handleMealFetch);
 
 function handleMealFetch(event) {
@@ -72,13 +73,34 @@ function handleMealFetch(event) {
         console.log("item Searched")
         console.log(searchInput.value)
         var mealSearch = searchInput.value
-        console.log(mealSearch)
-        displayMeals(mealSearch)
+        //  If input is blank then displayed error message in dialog or call api and displayed data.
+        if(mealSearch === "")
+        {
+            displayErrorMsg()
+        }
+        else{
+            displayMeals(mealSearch)
+        }
+       
     };
 
 $(document).ready(function(){
-    $('.modal').modal()
+     $('.modal').modal()
     });
+
+// Added model class dynamically, opened model and delete class after second. 
+function displayErrorMsg(){
+    var btnTemp = document.querySelector("#btnSearch");
+    btnTemp.classList.add("modal-trigger");
+    btnTemp.setAttribute("href","#demo-modal")
+    $('#demo-modal').modal();
+    $("#demo-modal").modal('open', { dismissible: true, complete: function() { console.log('Close modal'); } })   
+    $("#searchMealInput").val("");
+    //dynamic class removed ater 1 seconds
+    setTimeout(function () {
+        btnTemp.classList.remove("modal-trigger");
+           }, 1000);
+}
 
 function displayMeals(mealSearch){
 var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealSearch 
@@ -87,15 +109,18 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             return response.json();
         })
         .then (function (data) {
-            console.log(data);
-            console.log(data.meals.length);
+            // It's check whether user enter correct meal name then data diaplay in grid otherwise error message is displayed
+            if(data.meals === null)
+            {
+                displayErrorMsg();
+            }
+            else
+            {
             for (var i = 0; i < data.meals.length; i++) {
+            // Added dynamic elments, attributes and displayed in grid results
             var card = document.createElement('div')
             $(cardContainer).append(card);
-            card.classList.add("card","col", "s12", "m6", "l4");
-            card.style.marginLeft ="5px";
-            card.style.width ="32.33%";
-            card.setAttribute("dataid", data.meals[i].idMeal)
+            card.classList.add("card","col", "s12", "m6", "l4","customcard");
 
             var cardImage = document.createElement('div');
             card.appendChild(cardImage);
@@ -109,23 +134,19 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             var mealName = document.createElement('span');
             var cardContent = document.createElement('div')
             $(card).append(cardContent);
-            cardContent.classList.add("card-content","center-align");
-            cardContent.style.padding = "0px"
+            cardContent.classList.add("card-content","center-align","customcardcontent");
             $(cardContent).append(mealName);
-            mealName.classList.add("card-title","customcardtitle")
-            // mealName.style.fontWeight ="bold";
-            // mealName.style.fontSize ="18px";
-            // mealName.style.marginBottom ="0px";
-
+            mealName.setAttribute("class","card-title customcardtitle")
+            
             // Displayed limited character as title and full name is displayed while hoverd to content
             // Added tooltip for tilte
             if(data.meals[i].strMeal.length > 17){
-                mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
-                mealName.classList.add("tooltip")
+                mealName.textContent = data.meals[i].strMeal.substring(0,17) +"..."; // Disaplyed only 17 characters in textcontent
+                mealName.classList.add("tooltip");
                 var tooltipText = document.createElement('span');
-                mealName.appendChild(tooltipText)
-                tooltipText.classList.add("tooltiptext")
-                tooltipText.textContent = data.meals[i].strMeal
+                mealName.appendChild(tooltipText);
+                tooltipText.classList.add("tooltiptext");
+                tooltipText.textContent = data.meals[i].strMeal // Displyed full mealname in tooltip
             }
             else{
                 mealName.textContent = data.meals[i].strMeal
@@ -151,8 +172,11 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             addIcon.innerHTML = "add";
             $(addBtn).append(addIcon);
             }
-        });
+        }
+        })
+          
 }
+
 
 function getMealRecipe(meal){
     meal.preventDefault();

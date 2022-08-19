@@ -71,6 +71,7 @@ h4 {
   text-align: center;
 }
 
+/* custom style apply to footer section */
 .customfooter {
   position: absolute;
   bottom: 0;
@@ -146,6 +147,7 @@ h4 {
   opacity: 0.8;
 }
 
+/* Added tooltip functionality for mealName in card and created style for tooltip, text and hover.  */
 .tooltip {
   position: relative;
   display: inline-block;
@@ -159,20 +161,33 @@ h4 {
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 4;
+  position: absolute;   /* Position the tooltip */
+  z-index: 4; 
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
 
+/* Added custom style for card and set important priority */
 .customcardtitle{
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 0px;
+  font-weight: bold !important;
+  font-size: 1.20rem !important;
+  margin-bottom: 0px !important;
 }
 
+.customcard{
+  margin-left: 5px !important;
+  width: 32.33% !important;
+}
+
+.customcardcontent{
+  padding: 0px !important;
+}
+
+/* style color apply to p tag for error class*/
+.error {
+  color:red ;
+  font-weight: bold;
+}
 
