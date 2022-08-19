@@ -165,14 +165,14 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             recipeBtn.addEventListener("click", getMealRecipe);
             $(cardContent).append(recipeBtn);
 
-              var addIcon = document.createElement("i");
-              addIcon.classList.add("material-icons");
-              addIcon.innerHTML = "message";
-              $(recipeBtn).append(addIcon);
+            var addIcon = document.createElement("i");
+            addIcon.classList.add("material-icons");
+            addIcon.innerHTML = "message";
+            $(recipeBtn).append(addIcon);
 
-              var addBtn = document.createElement("a")
-              addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
-              $(cardContent).append(addBtn);
+            var addBtn = document.createElement("a")
+            addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+            $(cardContent).append(addBtn);
 
             var addIcon = document.createElement("i");
             addIcon.classList.add("material-icons");
