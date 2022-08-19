@@ -98,6 +98,7 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
         .then (function (data) {
             console.log(data);
             console.log(data.meals.length);
+            if (cardContainer.textContent === '') {
             for (var i = 0; i < data.meals.length; i++) {
             var card = document.createElement('div')
             $(cardContainer).append(card);
@@ -128,15 +129,14 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
 
             // Displayed limited character as title and full name is displayed while hoverd to content
             // Added tooltip for tilte
-            if(data.meals[i].strMeal.length > 20){
+            if(data.meals[i].strMeal.length > 20) {
                 mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
                 mealName.classList.add("tooltip")
                 var tooltipText = document.createElement('span');
                 mealName.appendChild(tooltipText)
                 tooltipText.classList.add("tooltiptext")
                 tooltipText.textContent = data.meals[i].strMeal
-            }
-            else{
+            } else {
                 mealName.textContent = data.meals[i].strMeal
                 console.log("min ", data.meals[i].strMeal)
             }
@@ -147,20 +147,20 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             recipeBtn.addEventListener("click", getMealRecipe);
             $(cardContent).append(recipeBtn);
 
-              var addIcon = document.createElement("i");
-              addIcon.classList.add("material-icons");
-              addIcon.innerHTML = "message";
-              $(recipeBtn).append(addIcon);
+            var addIcon = document.createElement("i");
+            addIcon.classList.add("material-icons");
+            addIcon.innerHTML = "message";
+            $(recipeBtn).append(addIcon);
 
-              var addBtn = document.createElement("a")
-              addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
-              $(cardContent).append(addBtn);
+            var addBtn = document.createElement("a")
+            addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+            $(cardContent).append(addBtn);
 
-              var addIcon = document.createElement("i");
-              addIcon.classList.add("material-icons");
-              addIcon.innerHTML = "add";
-              $(addBtn).append(addIcon);
-              }
+            var addIcon = document.createElement("i");
+            addIcon.classList.add("material-icons");
+            addIcon.innerHTML = "add";
+            $(addBtn).append(addIcon);
+            }
             } else {
               cardContainer.textContent = ''
               console.log("container cleared")
