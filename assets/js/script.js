@@ -76,19 +76,18 @@ modalListAdd.addEventListener("click", createShoppingList)
 
 clearButton.addEventListener("click", clearList);
 
+modalListAdd.addEventListener("click", createShoppingList)
+
+clearButton.addEventListener("click", clearList);
+
 function handleMealFetch(event) {
     event.preventDefault();
-    console.log("item Searched")
-    console.log(searchInput.value)
-        if (searchInput.value === '') {
-          OpenModal();
-          console.log("error")
-        }else {
-        var mealSearch = searchInput.value.trim()
+        console.log("item Searched")
+        console.log(searchInput.value)
+        var mealSearch = searchInput.value
         console.log(mealSearch)
         displayMeals(mealSearch)
-      }
-};
+    };
 
 function displayMeals(mealSearch){
 var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealSearch 
@@ -99,15 +98,13 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
         .then (function (data) {
             console.log(data);
             console.log(data.meals.length);
-            if (cardContainer.textContent.trim() === '') {
-              console.log("lenght is 0")
-              for (var i = 0; i < data.meals.length; i++) {
-              var card = document.createElement('div')
-              $(cardContainer).append(card);
-              card.classList.add("card","col", "s12", "m6", "l4");
-              card.style.marginLeft ="5px";
-              card.style.width ="32.33%";
-              card.setAttribute("dataid", data.meals[i].idMeal)
+            for (var i = 0; i < data.meals.length; i++) {
+            var card = document.createElement('div')
+            $(cardContainer).append(card);
+            card.classList.add("card","col", "s12", "m6", "l4");
+            card.style.marginCenter ="4px";
+            card.style.width ="33.33%git ";
+            card.setAttribute("dataid", data.meals[i].idMeal)
 
               var cardImage = document.createElement('div');
               card.appendChild(cardImage);
@@ -118,23 +115,37 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
               mealImageDisplay.setAttribute('src', mealImageURL)
               $(cardImage).append(mealImageDisplay);
 
-              var mealName = document.createElement('span');
-              var cardContent = document.createElement('div')
-              $(card).append(cardContent);
-              cardContent.classList.add("card-content","center-align");
-              cardContent.style.padding = "0px"
-              $(cardContent).append(mealName);
-              mealName.classList.add("card-title")
-              mealName.style.fontWeight ="bold";
-              mealName.style.fontSize ="18px";
-              mealName.style.marginBottom ="0px";
-              mealName.textContent = data.meals[i].strMeal
+            var mealName = document.createElement('span');
+            var cardContent = document.createElement('div')
+            $(card).append(cardContent);
+            cardContent.classList.add("card-content","center-align");
+            cardContent.style.padding = "0px"
+            $(cardContent).append(mealName);
+            mealName.classList.add("card-title")
+            mealName.style.fontWeight ="bold";
+            mealName.style.fontSize ="1rem";
+            mealName.style.marginBottom ="0px";
 
-              var recipeBtn = document.createElement("a")
-              recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
-              recipeBtn.href = "#modal1"
-              recipeBtn.addEventListener("click", getMealRecipe);
-              $(cardContent).append(recipeBtn);
+            // Displayed limited character as title and full name is displayed while hoverd to content
+            // Added tooltip for tilte
+            if(data.meals[i].strMeal.length > 20){
+                mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
+                mealName.classList.add("tooltip")
+                var tooltipText = document.createElement('span');
+                mealName.appendChild(tooltipText)
+                tooltipText.classList.add("tooltiptext")
+                tooltipText.textContent = data.meals[i].strMeal
+            }
+            else{
+                mealName.textContent = data.meals[i].strMeal
+                console.log("min ", data.meals[i].strMeal)
+            }
+           
+            var recipeBtn = document.createElement("a")
+            recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
+            recipeBtn.href = "#modal1"
+            recipeBtn.addEventListener("click", getMealRecipe);
+            $(cardContent).append(recipeBtn);
 
               var addIcon = document.createElement("i");
               addIcon.classList.add("material-icons");
