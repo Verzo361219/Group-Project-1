@@ -52,9 +52,6 @@ var settings2 = {
 });
 
 
-
-
-
 var cardContainer = document.querySelector('.cardContainer');
 var searchInput = document.querySelector('#searchMealInput');
 var searchBtn =  document.querySelector('#btnSearch');
@@ -96,8 +93,8 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             var card = document.createElement('div')
             $(cardContainer).append(card);
             card.classList.add("card","col", "s12", "m6", "l4");
-            card.style.marginLeft ="5px";
-            card.style.width ="32.33%";
+            card.style.marginCenter ="4px";
+            card.style.width ="33.33%git ";
             card.setAttribute("dataid", data.meals[i].idMeal)
 
             var cardImage = document.createElement('div');
@@ -117,10 +114,24 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             $(cardContent).append(mealName);
             mealName.classList.add("card-title")
             mealName.style.fontWeight ="bold";
-            mealName.style.fontSize ="18px";
+            mealName.style.fontSize ="1rem";
             mealName.style.marginBottom ="0px";
-            mealName.textContent = data.meals[i].strMeal
 
+            // Displayed limited character as title and full name is displayed while hoverd to content
+            // Added tooltip for tilte
+            if(data.meals[i].strMeal.length > 20){
+                mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
+                mealName.classList.add("tooltip")
+                var tooltipText = document.createElement('span');
+                mealName.appendChild(tooltipText)
+                tooltipText.classList.add("tooltiptext")
+                tooltipText.textContent = data.meals[i].strMeal
+            }
+            else{
+                mealName.textContent = data.meals[i].strMeal
+                console.log("min ", data.meals[i].strMeal)
+            }
+           
             var recipeBtn = document.createElement("a")
             recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
             recipeBtn.href = "#modal1"
