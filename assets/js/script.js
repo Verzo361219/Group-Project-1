@@ -1,3 +1,25 @@
+var cardContainer = document.querySelector('.cardContainer');
+var searchInput = document.querySelector('#searchMealInput');
+var searchBtn =  document.querySelector('#btnSearch');
+var ingredientsList = document.querySelector('.ingredients-list');
+var modalContainer = document.querySelector('.modalContainer');
+var modalMeal = document.querySelector('.recipe-title');
+var modalInstructions = document.querySelector('.recipe-instructions');
+var modalIngredients = document.querySelector('.ingredients-list');
+var modalURL = document.querySelector('#videoURL');
+var modalThumb = document.querySelector('#mealThumb');
+var shoppingList = document.querySelector('#shopping-list');
+var modalListAdd = document.querySelector('.listAdd');
+var shoppingListItems = '';
+var token = '';
+var clearButton = document.querySelector('.clearBtn');
+
+
+$(document).ready(function(){
+  $('#modal1').modal()
+  // Clearing previous localstorage data when application is running.
+  localStorage.clear();
+  });
 
 //access token fetch request
 var getToken = {
@@ -16,16 +38,17 @@ var getToken = {
 };
 
 $.ajax(getToken).done(function (response) {
-  console.log(response);
-  
-  var token = response.access_token
-  console.log(token)
-  var list = $("#shoppingList")
+  token = response.access_token
+})
+
 //api pull from the kroger api using the created token
-var settings2 = {
+function getKrogerPrice(searchItem) {
+  var price = ''
+
+  var settings2 = {
     "async": true,
     "crossDomain": true,
-    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term=chicken&filter.locationId=01400943&filter.limit=1",
+    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term="  + searchItem.split(" ").join("%20") + "&filter.locationId=01400943&filter.limit=1",
     "method": "GET",
     "headers": {
       "Access-Control-Allow-Origin": "https://verzo361219.github.io/Group-Project-1/",
@@ -33,50 +56,30 @@ var settings2 = {
       "Authorization": "Bearer " + token 
     }
   }
-  
-  $.ajax(settings2).done(function (response) {
-    console.log(response);
+
+  return $.ajax(settings2).done(function (response) {
   })
   //this function finds and displays the price information on selected items through the kroger api
   .then(function(data2){
-    var price = data2.data[0].items[0].price.regular
-    console.log(price)
-    
-    var item = document.createElement('li')
-    item.textContent = "$ " + price
-    
-    $(item).appendTo(list)
-    
+    price = data2.data[0].items[0].price.regular
+    return [price, searchItem];
   })
- 
-});
-
-
-var cardContainer = document.querySelector('.cardContainer');
-var searchInput = document.querySelector('#searchMealInput');
-var searchBtn =  document.querySelector('#btnSearch');
-var ingredientsList = document.querySelector('.ingredients-list');
-var modalContainer = document.querySelector('.modalContainer');
-var modalMeal = document.querySelector('.recipe-title');
-// var modalCategory = document.querySelector('.recipe-category');
-var modalInstructions = document.querySelector('.recipe-instructions');
-var modalIngredients = document.querySelector('.ingredients-list');
-var modalURL = document.querySelector('#videoURL');
-var modalThumb = document.querySelector('#mealThumb');
-
-
+};
 
 searchBtn.addEventListener("click", handleMealFetch);
 
+modalListAdd.addEventListener("click", createShoppingList)
+
+clearButton.addEventListener("click", clearList);
+
+
 function handleMealFetch(event) {
     event.preventDefault();
-        console.log("item Searched")
-        console.log(searchInput.value)
         var mealSearch = searchInput.value
         //  If input is blank then displayed error message in dialog or call api and displayed data.
         if(mealSearch === "")
         {
-            displayErrorMsg()
+           displayErrorMsg()
         }
         else{
             displayMeals(mealSearch)
@@ -90,11 +93,13 @@ $(document).ready(function(){
 
 // Added model class dynamically, opened model and delete class after second. 
 function displayErrorMsg(){
+    // Clear the card container if it has previous value
+    cardContainer.textContent = ''
     var btnTemp = document.querySelector("#btnSearch");
     btnTemp.classList.add("modal-trigger");
     btnTemp.setAttribute("href","#demo-modal")
     $('#demo-modal').modal();
-    $("#demo-modal").modal('open', { dismissible: true, complete: function() { console.log('Close modal'); } })   
+    $("#demo-modal").modal('open', { dismissible: true, complete: function() {  } })   
     $("#searchMealInput").val("");
     //dynamic class removed ater 1 seconds
     setTimeout(function () {
@@ -114,22 +119,22 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             {
                 displayErrorMsg();
             }
-            else
-            {
+            else{
+            if (cardContainer.textContent === '') {
             for (var i = 0; i < data.meals.length; i++) {
             // Added dynamic elments, attributes and displayed in grid results
             var card = document.createElement('div')
             $(cardContainer).append(card);
             card.classList.add("card","col", "s12", "m6", "l4","customcard");
 
-            var cardImage = document.createElement('div');
-            card.appendChild(cardImage);
-            cardImage.classList.add("card-image");
-            
-            var mealImageURL = data.meals[i].strMealThumb;
-            var mealImageDisplay = document.createElement('img');
-            mealImageDisplay.setAttribute('src', mealImageURL)
-            $(cardImage).append(mealImageDisplay);
+              var cardImage = document.createElement('div');
+              card.appendChild(cardImage);
+              cardImage.classList.add("card-image");
+              
+              var mealImageURL = data.meals[i].strMealThumb;
+              var mealImageDisplay = document.createElement('img');
+              mealImageDisplay.setAttribute('src', mealImageURL)
+              $(cardImage).append(mealImageDisplay);
 
             var mealName = document.createElement('span');
             var cardContent = document.createElement('div')
@@ -137,6 +142,8 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             cardContent.classList.add("card-content","center-align","customcardcontent");
             $(cardContent).append(mealName);
             mealName.setAttribute("class","card-title customcardtitle")
+            // set dataid attribute to mealname
+            mealName.setAttribute("dataid",data.meals[i].idMeal)
             
             // Displayed limited character as title and full name is displayed while hoverd to content
             // Added tooltip for tilte
@@ -158,14 +165,14 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             recipeBtn.addEventListener("click", getMealRecipe);
             $(cardContent).append(recipeBtn);
 
-            var addIcon = document.createElement("i");
-            addIcon.classList.add("material-icons");
-            addIcon.innerHTML = "message";
-            $(recipeBtn).append(addIcon);
+              var addIcon = document.createElement("i");
+              addIcon.classList.add("material-icons");
+              addIcon.innerHTML = "message";
+              $(recipeBtn).append(addIcon);
 
-            var addBtn = document.createElement("a")
-            addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
-            $(cardContent).append(addBtn);
+              var addBtn = document.createElement("a")
+              addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+              $(cardContent).append(addBtn);
 
             var addIcon = document.createElement("i");
             addIcon.classList.add("material-icons");
@@ -173,19 +180,22 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             $(addBtn).append(addIcon);
             }
         }
-        })
-          
+        else {
+            cardContainer.textContent = ''
+            displayMeals(mealSearch)
+          }
+        }
+        });
 }
 
 
 function getMealRecipe(meal){
     meal.preventDefault();
-    console.log("button Pushed");
     if(meal.currentTarget.classList.contains('modal-trigger')){
-        console.log("true");
         var mealItem = meal.currentTarget.parentElement.parentElement;
-        console.log(mealItem.getAttribute("dataid"));
-        fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.getAttribute("dataid")}`)
+        // Updated code for get data id from title text content
+        mealItem = mealItem.childNodes[1].childNodes[0].getAttribute("dataid")
+        fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem}`)
         .then (function(response) {
             return response.json()
         })
@@ -196,7 +206,6 @@ function getMealRecipe(meal){
 }
 
 function mealRecipeModal(meal){
-    console.log(meal);
     meal = meal[0];
 
     //Updates Recipe Modal to reflect selected meal
@@ -214,12 +223,48 @@ function mealRecipeModal(meal){
                 continue;
             }
             ingredients.push(meal["strIngredient" + e]);
+
             measurements.push(meal["strMeasure" + e]);
             
             var ingredientsListItems = document.createElement('li')
             modalIngredients.appendChild(ingredientsListItems);
             ingredientsListItems.innerHTML = meal["strMeasure" + e] + "   " + meal["strIngredient" + e];
         }
+        shoppingListItems = ingredients;
 }
-                
 
+function createShoppingList() {
+  if (shoppingList.innerHTML === '') {
+  localStorage.setItem("shoppingList", JSON.stringify(shoppingListItems));
+    for (var i = 0; i < shoppingListItems.length; i++) {
+    getKrogerPrice(shoppingListItems[i]).then(function(krogerPrice){
+      var listItems = document.createElement('li')
+      listItems.innerHTML = krogerPrice[1] + " $" +  krogerPrice[0]
+      shoppingList.appendChild(listItems)
+      })
+    }
+  }else {
+    shoppingList.innerHTML = ''
+    createShoppingList()
+  }
+// Scrolls to the top of the webpage after a mean is added to the shopping list
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
+};
+
+//displays shopping list on page load based off of the saved informaiton in local storage
+function getstoredList() {
+  if (localStorage.getItem("shoppingList")) {
+    shoppingListItems = JSON.parse(localStorage.getItem("shoppingList"));
+    createShoppingList();
+  }
+}
+setTimeout (function() {
+  getstoredList()
+}, 1000);
+
+function clearList() {
+  shoppingListItems = '';
+  shoppingList.innerHTML = ''
+  window.localStorage.clear();
+  return;
+}

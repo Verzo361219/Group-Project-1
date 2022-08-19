@@ -48,8 +48,8 @@
             </div>       
         </form>
 <!-- List results displayed under search bar -->
-        <div class="cardContainer row">
-                
+        <div class="cardContainer center-align row">
+
         </div>
         <div class="modalContainer">
             <div id="modal1" class="modal modal-fixed-footer">
@@ -74,7 +74,16 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-red red lighten-2 btn"><i class="material-icons left">close</i>close</a>
-                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn indigo"><i class="material-icons left">add_box</i>Add To List</a>
+                    <a href="#!" class="listAdd modal-action modal-close waves-effect waves-light btn indigo"><i class="material-icons left">add_box</i>Add To List</a>
+                </div>
+            </div>
+            <!-- Error Modal -->
+            <div id="errorModal" class="modal">
+                <div class="modal-content">
+                    <h5 class="errorModalTitle">I'm sorry. Your search was unsuccessful. Please search another ingredient</h5>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn red">Close</a>
                 </div>
             </div>
         </div>
@@ -82,12 +91,13 @@
             <div class="col s0 m6 l6">
                 <h4 class="center-align add_shopping_cart"> Shopping List</h4>
 <!-- Placeholder for shopping list data -->
-            <section>
-                <ul  id="shoppingList">
-
-                </ul>
-
-            </section>
+                <section>
+                    <ul id="shopping-list">
+                    </ul>
+                    <div class="shoppingListButtons">
+                        <a class="waves-effect waves-light btn red clearBtn"><i class=" material-icons left">close</i>Clear</a>
+                    </div>
+                </section>
             </div>
         </aside> 
     </div>  
