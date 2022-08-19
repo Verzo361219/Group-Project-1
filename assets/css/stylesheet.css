@@ -62,12 +62,9 @@ h4 {
 .card-image img {
   object-fit: cover;
 }
-
-.card-image{
-  height: 100px;
+.card {
   overflow: hidden;
 }
-
 
 #shoppingList {
   color: white;
@@ -89,7 +86,7 @@ h4 {
   position: relative;
   min-height: 100vh;
 }
-#
+
 #content-wrap{
   padding-bottom: 5rem;
 }

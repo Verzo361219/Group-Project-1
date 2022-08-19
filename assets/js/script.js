@@ -94,7 +94,7 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             $(cardContainer).append(card);
             card.classList.add("card","col", "s12", "m6", "l4");
             card.style.marginCenter ="4px";
-            card.style.width ="33.3%";
+            card.style.width ="33.33%git ";
             card.setAttribute("dataid", data.meals[i].idMeal)
 
             var cardImage = document.createElement('div');
@@ -114,12 +114,12 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             $(cardContent).append(mealName);
             mealName.classList.add("card-title")
             mealName.style.fontWeight ="bold";
-            mealName.style.fontSize ="18px";
+            mealName.style.fontSize ="1rem";
             mealName.style.marginBottom ="0px";
 
             // Displayed limited character as title and full name is displayed while hoverd to content
             // Added tooltip for tilte
-            if(data.meals[i].strMeal.length > 17){
+            if(data.meals[i].strMeal.length > 20){
                 mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
                 mealName.classList.add("tooltip")
                 var tooltipText = document.createElement('span');
