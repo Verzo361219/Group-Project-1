@@ -11,8 +11,13 @@ var modalThumb = document.querySelector('#mealThumb');
 var shoppingList = document.querySelector('#shopping-list');
 var modalListAdd = document.querySelector('.listAdd');
 var shoppingListItems = '';
-var token = ''
+var token = '';
+var clearButton = document.querySelector('.clearBtn');
 
+
+$(document).ready(function(){
+  $('#modal1').modal()
+  });
 
 //access token fetch request
 var getToken = {
@@ -69,25 +74,21 @@ searchBtn.addEventListener("click", handleMealFetch);
 
 modalListAdd.addEventListener("click", createShoppingList)
 
+clearButton.addEventListener("click", clearList);
+
 function handleMealFetch(event) {
     event.preventDefault();
     console.log("item Searched")
     console.log(searchInput.value)
-        // if (searchInput.value === '') {
-        //   $(document).ready(function(){
-        //     $('#errorModal').modal()
-        //   })
-        //   console.log("error")
-        // }else {
+        if (searchInput.value === '') {
+          OpenModal();
+          console.log("error")
+        }else {
         var mealSearch = searchInput.value.trim()
         console.log(mealSearch)
         displayMeals(mealSearch)
-      // }
+      }
 };
-
-$(document).ready(function(){
-    $('#modal1').modal()
-    });
 
 function displayMeals(mealSearch){
 var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealSearch 
@@ -98,61 +99,68 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
         .then (function (data) {
             console.log(data);
             console.log(data.meals.length);
-            for (var i = 0; i < data.meals.length; i++) {
-            var card = document.createElement('div')
-            $(cardContainer).append(card);
-            card.classList.add("card","col", "s12", "m6", "l4");
-            card.style.marginLeft ="5px";
-            card.style.width ="32.33%";
-            card.setAttribute("dataid", data.meals[i].idMeal)
+            if (cardContainer.textContent.trim() === '') {
+              console.log("lenght is 0")
+              for (var i = 0; i < data.meals.length; i++) {
+              var card = document.createElement('div')
+              $(cardContainer).append(card);
+              card.classList.add("card","col", "s12", "m6", "l4");
+              card.style.marginLeft ="5px";
+              card.style.width ="32.33%";
+              card.setAttribute("dataid", data.meals[i].idMeal)
 
-            var cardImage = document.createElement('div');
-            card.appendChild(cardImage);
-            cardImage.classList.add("card-image");
-            
-            var mealImageURL = data.meals[i].strMealThumb;
-            var mealImageDisplay = document.createElement('img');
-            mealImageDisplay.setAttribute('src', mealImageURL)
-            $(cardImage).append(mealImageDisplay);
+              var cardImage = document.createElement('div');
+              card.appendChild(cardImage);
+              cardImage.classList.add("card-image");
+              
+              var mealImageURL = data.meals[i].strMealThumb;
+              var mealImageDisplay = document.createElement('img');
+              mealImageDisplay.setAttribute('src', mealImageURL)
+              $(cardImage).append(mealImageDisplay);
 
-            var mealName = document.createElement('span');
-            var cardContent = document.createElement('div')
-            $(card).append(cardContent);
-            cardContent.classList.add("card-content","center-align");
-            cardContent.style.padding = "0px"
-            $(cardContent).append(mealName);
-            mealName.classList.add("card-title")
-            mealName.style.fontWeight ="bold";
-            mealName.style.fontSize ="18px";
-            mealName.style.marginBottom ="0px";
-            mealName.textContent = data.meals[i].strMeal
+              var mealName = document.createElement('span');
+              var cardContent = document.createElement('div')
+              $(card).append(cardContent);
+              cardContent.classList.add("card-content","center-align");
+              cardContent.style.padding = "0px"
+              $(cardContent).append(mealName);
+              mealName.classList.add("card-title")
+              mealName.style.fontWeight ="bold";
+              mealName.style.fontSize ="18px";
+              mealName.style.marginBottom ="0px";
+              mealName.textContent = data.meals[i].strMeal
 
-            var recipeBtn = document.createElement("a")
-            recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
-            recipeBtn.href = "#modal1"
-            recipeBtn.addEventListener("click", getMealRecipe);
-            $(cardContent).append(recipeBtn);
+              var recipeBtn = document.createElement("a")
+              recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
+              recipeBtn.href = "#modal1"
+              recipeBtn.addEventListener("click", getMealRecipe);
+              $(cardContent).append(recipeBtn);
 
-            var addIcon = document.createElement("i");
-            addIcon.classList.add("material-icons");
-            addIcon.innerHTML = "message";
-            $(recipeBtn).append(addIcon);
+              var addIcon = document.createElement("i");
+              addIcon.classList.add("material-icons");
+              addIcon.innerHTML = "message";
+              $(recipeBtn).append(addIcon);
 
-            var addBtn = document.createElement("a")
-            addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
-            $(cardContent).append(addBtn);
+              var addBtn = document.createElement("a")
+              addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+              $(cardContent).append(addBtn);
 
-            var addIcon = document.createElement("i");
-            addIcon.classList.add("material-icons");
-            addIcon.innerHTML = "add";
-            $(addBtn).append(addIcon);
+              var addIcon = document.createElement("i");
+              addIcon.classList.add("material-icons");
+              addIcon.innerHTML = "add";
+              $(addBtn).append(addIcon);
+              }
+            } else {
+              cardContainer.textContent = ''
+              console.log("container cleared")
+              displayMeals(mealSearch)
             }
         });
 }
 
 function getMealRecipe(meal){
     meal.preventDefault();
-    console.log("button Pushed");
+    console.log(meal);
     if(meal.currentTarget.classList.contains('modal-trigger')){
         console.log("true");
         var mealItem = meal.currentTarget.parentElement.parentElement;
@@ -199,6 +207,7 @@ function mealRecipeModal(meal){
 function createShoppingList() {
   if (shoppingList.innerHTML === '') {
   console.log(shoppingListItems)   
+  localStorage.setItem("shoppingList", JSON.stringify(shoppingListItems));
     for (var i = 0; i < shoppingListItems.length; i++) {
     getKrogerPrice(shoppingListItems[i]).then(function(krogerPrice){
       var listItems = document.createElement('li')
@@ -213,3 +222,24 @@ function createShoppingList() {
 // Scrolls to the top of the webpage after a mean is added to the shopping list
   $('html, body').animate({ scrollTop: 0 }, 'fast');
 };
+
+//displays shopping list on page load based off of the saved informaiton in local storage
+function getstoredList() {
+  if (localStorage.getItem("shoppingList")) {
+    console.log("retrieved")
+    shoppingListItems = JSON.parse(localStorage.getItem("shoppingList"));
+    console.log(shoppingListItems)
+    createShoppingList();
+  }
+}
+setTimeout (function() {
+  getstoredList()
+}, 1000);
+
+function clearList() {
+  console.log("cleared");
+  shoppingListItems = '';
+  shoppingList.innerHTML = ''
+  window.localStorage.clear();
+  return;
+}

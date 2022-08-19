@@ -134,4 +134,14 @@ h4 {
   opacity: 0.8;
 }
 
+.errorModalTitle {
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px black;
+  font-weight: bold;
+}
+
+.shoppingListButtons {
+  text-align : center;
+}
 
