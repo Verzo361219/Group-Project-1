@@ -1,3 +1,23 @@
+var cardContainer = document.querySelector('.cardContainer');
+var searchInput = document.querySelector('#searchMealInput');
+var searchBtn =  document.querySelector('#btnSearch');
+var ingredientsList = document.querySelector('.ingredients-list');
+var modalContainer = document.querySelector('.modalContainer');
+var modalMeal = document.querySelector('.recipe-title');
+var modalInstructions = document.querySelector('.recipe-instructions');
+var modalIngredients = document.querySelector('.ingredients-list');
+var modalURL = document.querySelector('#videoURL');
+var modalThumb = document.querySelector('#mealThumb');
+var shoppingList = document.querySelector('#shopping-list');
+var modalListAdd = document.querySelector('.listAdd');
+var shoppingListItems = '';
+var token = '';
+var clearButton = document.querySelector('.clearBtn');
+
+
+$(document).ready(function(){
+  $('#modal1').modal()
+  });
 
 //access token fetch request
 var getToken = {
@@ -18,14 +38,19 @@ var getToken = {
 $.ajax(getToken).done(function (response) {
   console.log(response);
   
-  var token = response.access_token
+  token = response.access_token
   console.log(token)
-  var list = $("#shoppingList")
+})
+
 //api pull from the kroger api using the created token
-var settings2 = {
+function getKrogerPrice(searchItem) {
+  console.log(searchItem)
+  var price = ''
+
+  var settings2 = {
     "async": true,
     "crossDomain": true,
-    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term=chicken&filter.locationId=01400943&filter.limit=1",
+    "url": "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term="  + searchItem.split(" ").join("%20") + "&filter.locationId=01400943&filter.limit=1",
     "method": "GET",
     "headers": {
       "Access-Control-Allow-Origin": "https://verzo361219.github.io/Group-Project-1/",
@@ -33,39 +58,27 @@ var settings2 = {
       "Authorization": "Bearer " + token 
     }
   }
-  
-  $.ajax(settings2).done(function (response) {
+
+  return $.ajax(settings2).done(function (response) {
     console.log(response);
   })
   //this function finds and displays the price information on selected items through the kroger api
   .then(function(data2){
-    var price = data2.data[0].items[0].price.regular
+    price = data2.data[0].items[0].price.regular
     console.log(price)
-    
-    var item = document.createElement('li')
-    item.textContent = "$ " + price
-    
-    $(item).appendTo(list)
-    
+    return [price, searchItem];
   })
- 
-});
-
-
-var cardContainer = document.querySelector('.cardContainer');
-var searchInput = document.querySelector('#searchMealInput');
-var searchBtn =  document.querySelector('#btnSearch');
-var ingredientsList = document.querySelector('.ingredients-list');
-var modalContainer = document.querySelector('.modalContainer');
-var modalMeal = document.querySelector('.recipe-title');
-// var modalCategory = document.querySelector('.recipe-category');
-var modalInstructions = document.querySelector('.recipe-instructions');
-var modalIngredients = document.querySelector('.ingredients-list');
-var modalURL = document.querySelector('#videoURL');
-var modalThumb = document.querySelector('#mealThumb');
-
+};
 
 searchBtn.addEventListener("click", handleMealFetch);
+
+modalListAdd.addEventListener("click", createShoppingList)
+
+clearButton.addEventListener("click", clearList);
+
+modalListAdd.addEventListener("click", createShoppingList)
+
+clearButton.addEventListener("click", clearList);
 
 function handleMealFetch(event) {
     event.preventDefault();
@@ -75,10 +88,6 @@ function handleMealFetch(event) {
         console.log(mealSearch)
         displayMeals(mealSearch)
     };
-
-$(document).ready(function(){
-    $('.modal').modal()
-    });
 
 function displayMeals(mealSearch){
 var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealSearch 
@@ -97,14 +106,14 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             card.style.width ="33.33%git ";
             card.setAttribute("dataid", data.meals[i].idMeal)
 
-            var cardImage = document.createElement('div');
-            card.appendChild(cardImage);
-            cardImage.classList.add("card-image");
-            
-            var mealImageURL = data.meals[i].strMealThumb;
-            var mealImageDisplay = document.createElement('img');
-            mealImageDisplay.setAttribute('src', mealImageURL)
-            $(cardImage).append(mealImageDisplay);
+              var cardImage = document.createElement('div');
+              card.appendChild(cardImage);
+              cardImage.classList.add("card-image");
+              
+              var mealImageURL = data.meals[i].strMealThumb;
+              var mealImageDisplay = document.createElement('img');
+              mealImageDisplay.setAttribute('src', mealImageURL)
+              $(cardImage).append(mealImageDisplay);
 
             var mealName = document.createElement('span');
             var cardContent = document.createElement('div')
@@ -138,26 +147,31 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             recipeBtn.addEventListener("click", getMealRecipe);
             $(cardContent).append(recipeBtn);
 
-            var addIcon = document.createElement("i");
-            addIcon.classList.add("material-icons");
-            addIcon.innerHTML = "message";
-            $(recipeBtn).append(addIcon);
+              var addIcon = document.createElement("i");
+              addIcon.classList.add("material-icons");
+              addIcon.innerHTML = "message";
+              $(recipeBtn).append(addIcon);
 
-            var addBtn = document.createElement("a")
-            addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
-            $(cardContent).append(addBtn);
+              var addBtn = document.createElement("a")
+              addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+              $(cardContent).append(addBtn);
 
-            var addIcon = document.createElement("i");
-            addIcon.classList.add("material-icons");
-            addIcon.innerHTML = "add";
-            $(addBtn).append(addIcon);
+              var addIcon = document.createElement("i");
+              addIcon.classList.add("material-icons");
+              addIcon.innerHTML = "add";
+              $(addBtn).append(addIcon);
+              }
+            } else {
+              cardContainer.textContent = ''
+              console.log("container cleared")
+              displayMeals(mealSearch)
             }
         });
 }
 
 function getMealRecipe(meal){
     meal.preventDefault();
-    console.log("button Pushed");
+    console.log(meal);
     if(meal.currentTarget.classList.contains('modal-trigger')){
         console.log("true");
         var mealItem = meal.currentTarget.parentElement.parentElement;
@@ -191,12 +205,52 @@ function mealRecipeModal(meal){
                 continue;
             }
             ingredients.push(meal["strIngredient" + e]);
+
             measurements.push(meal["strMeasure" + e]);
             
             var ingredientsListItems = document.createElement('li')
             modalIngredients.appendChild(ingredientsListItems);
             ingredientsListItems.innerHTML = meal["strMeasure" + e] + "   " + meal["strIngredient" + e];
         }
+        shoppingListItems = ingredients;
 }
-                
 
+function createShoppingList() {
+  if (shoppingList.innerHTML === '') {
+  console.log(shoppingListItems)   
+  localStorage.setItem("shoppingList", JSON.stringify(shoppingListItems));
+    for (var i = 0; i < shoppingListItems.length; i++) {
+    getKrogerPrice(shoppingListItems[i]).then(function(krogerPrice){
+      var listItems = document.createElement('li')
+      listItems.innerHTML = krogerPrice[1] + " $" +  krogerPrice[0]
+      shoppingList.appendChild(listItems)
+      })
+    }
+  }else {
+    shoppingList.innerHTML = ''
+    createShoppingList()
+  }
+// Scrolls to the top of the webpage after a mean is added to the shopping list
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
+};
+
+//displays shopping list on page load based off of the saved informaiton in local storage
+function getstoredList() {
+  if (localStorage.getItem("shoppingList")) {
+    console.log("retrieved")
+    shoppingListItems = JSON.parse(localStorage.getItem("shoppingList"));
+    console.log(shoppingListItems)
+    createShoppingList();
+  }
+}
+setTimeout (function() {
+  getstoredList()
+}, 1000);
+
+function clearList() {
+  console.log("cleared");
+  shoppingListItems = '';
+  shoppingList.innerHTML = ''
+  window.localStorage.clear();
+  return;
+}

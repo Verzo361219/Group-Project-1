@@ -66,7 +66,7 @@ h4 {
   overflow: hidden;
 }
 
-#shoppingList {
+#shopping-list {
   color: white;
   font-size: x-large;
   text-align: center;
@@ -171,4 +171,14 @@ h4 {
   visibility: visible;
 }
 
+.errorModalTitle {
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px black;
+  font-weight: bold;
+}
+
+.shoppingListButtons {
+  text-align : center;
+}
 
