@@ -17,6 +17,8 @@ var clearButton = document.querySelector('.clearBtn');
 
 $(document).ready(function(){
   $('#modal1').modal()
+  // Clearing previous localstorage data when application is running.
+  localStorage.clear();
   });
 
 //access token fetch request
@@ -36,15 +38,11 @@ var getToken = {
 };
 
 $.ajax(getToken).done(function (response) {
-  console.log(response);
-  
   token = response.access_token
-  console.log(token)
 })
 
 //api pull from the kroger api using the created token
 function getKrogerPrice(searchItem) {
-  console.log(searchItem)
   var price = ''
 
   var settings2 = {
@@ -60,12 +58,10 @@ function getKrogerPrice(searchItem) {
   }
 
   return $.ajax(settings2).done(function (response) {
-    console.log(response);
   })
   //this function finds and displays the price information on selected items through the kroger api
   .then(function(data2){
     price = data2.data[0].items[0].price.regular
-    console.log(price)
     return [price, searchItem];
   })
 };
@@ -76,18 +72,40 @@ modalListAdd.addEventListener("click", createShoppingList)
 
 clearButton.addEventListener("click", clearList);
 
-modalListAdd.addEventListener("click", createShoppingList)
-
-clearButton.addEventListener("click", clearList);
 
 function handleMealFetch(event) {
     event.preventDefault();
-        console.log("item Searched")
-        console.log(searchInput.value)
         var mealSearch = searchInput.value
-        console.log(mealSearch)
-        displayMeals(mealSearch)
+        //  If input is blank then displayed error message in dialog or call api and displayed data.
+        if(mealSearch === "")
+        {
+           displayErrorMsg()
+        }
+        else{
+            displayMeals(mealSearch)
+        }
+       
     };
+
+$(document).ready(function(){
+     $('.modal').modal()
+    });
+
+// Added model class dynamically, opened model and delete class after second. 
+function displayErrorMsg(){
+    // Clear the card container if it has previous value
+    cardContainer.textContent = ''
+    var btnTemp = document.querySelector("#btnSearch");
+    btnTemp.classList.add("modal-trigger");
+    btnTemp.setAttribute("href","#demo-modal")
+    $('#demo-modal').modal();
+    $("#demo-modal").modal('open', { dismissible: true, complete: function() {  } })   
+    $("#searchMealInput").val("");
+    //dynamic class removed ater 1 seconds
+    setTimeout(function () {
+        btnTemp.classList.remove("modal-trigger");
+           }, 1000);
+}
 
 function displayMeals(mealSearch){
 var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealSearch 
@@ -96,16 +114,18 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             return response.json();
         })
         .then (function (data) {
-            console.log(data);
-            console.log(data.meals.length);
+            // It's check whether user enter correct meal name then data diaplay in grid otherwise error message is displayed
+            if(data.meals === null)
+            {
+                displayErrorMsg();
+            }
+            else{
             if (cardContainer.textContent === '') {
             for (var i = 0; i < data.meals.length; i++) {
+            // Added dynamic elments, attributes and displayed in grid results
             var card = document.createElement('div')
             $(cardContainer).append(card);
-            card.classList.add("card","col", "s12", "m6", "l4");
-            card.style.marginCenter ="4px";
-            card.style.width ="33.33%git ";
-            card.setAttribute("dataid", data.meals[i].idMeal)
+            card.classList.add("card","col", "s12", "m6", "l4","customcard");
 
               var cardImage = document.createElement('div');
               card.appendChild(cardImage);
@@ -119,26 +139,24 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             var mealName = document.createElement('span');
             var cardContent = document.createElement('div')
             $(card).append(cardContent);
-            cardContent.classList.add("card-content","center-align");
-            cardContent.style.padding = "0px"
+            cardContent.classList.add("card-content","center-align","customcardcontent");
             $(cardContent).append(mealName);
-            mealName.classList.add("card-title")
-            mealName.style.fontWeight ="bold";
-            mealName.style.fontSize ="1rem";
-            mealName.style.marginBottom ="0px";
-
+            mealName.setAttribute("class","card-title customcardtitle")
+            // set dataid attribute to mealname
+            mealName.setAttribute("dataid",data.meals[i].idMeal)
+            
             // Displayed limited character as title and full name is displayed while hoverd to content
             // Added tooltip for tilte
-            if(data.meals[i].strMeal.length > 20) {
-                mealName.textContent = data.meals[i].strMeal.substring(0,17) +"...";
-                mealName.classList.add("tooltip")
+            if(data.meals[i].strMeal.length > 17){
+                mealName.textContent = data.meals[i].strMeal.substring(0,17) +"..."; // Disaplyed only 17 characters in textcontent
+                mealName.classList.add("tooltip");
                 var tooltipText = document.createElement('span');
-                mealName.appendChild(tooltipText)
-                tooltipText.classList.add("tooltiptext")
-                tooltipText.textContent = data.meals[i].strMeal
-            } else {
+                mealName.appendChild(tooltipText);
+                tooltipText.classList.add("tooltiptext");
+                tooltipText.textContent = data.meals[i].strMeal // Displyed full mealname in tooltip
+            }
+            else{
                 mealName.textContent = data.meals[i].strMeal
-                console.log("min ", data.meals[i].strMeal)
             }
            
             var recipeBtn = document.createElement("a")
@@ -161,22 +179,23 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             addIcon.innerHTML = "add";
             $(addBtn).append(addIcon);
             }
-            } else {
-              cardContainer.textContent = ''
-              console.log("container cleared")
-              displayMeals(mealSearch)
-            }
+        }
+        else {
+            cardContainer.textContent = ''
+            displayMeals(mealSearch)
+          }
+        }
         });
 }
 
+
 function getMealRecipe(meal){
     meal.preventDefault();
-    console.log(meal);
     if(meal.currentTarget.classList.contains('modal-trigger')){
-        console.log("true");
         var mealItem = meal.currentTarget.parentElement.parentElement;
-        console.log(mealItem.getAttribute("dataid"));
-        fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.getAttribute("dataid")}`)
+        // Updated code for get data id from title text content
+        mealItem = mealItem.childNodes[1].childNodes[0].getAttribute("dataid")
+        fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem}`)
         .then (function(response) {
             return response.json()
         })
@@ -187,7 +206,6 @@ function getMealRecipe(meal){
 }
 
 function mealRecipeModal(meal){
-    console.log(meal);
     meal = meal[0];
 
     //Updates Recipe Modal to reflect selected meal
@@ -217,7 +235,6 @@ function mealRecipeModal(meal){
 
 function createShoppingList() {
   if (shoppingList.innerHTML === '') {
-  console.log(shoppingListItems)   
   localStorage.setItem("shoppingList", JSON.stringify(shoppingListItems));
     for (var i = 0; i < shoppingListItems.length; i++) {
     getKrogerPrice(shoppingListItems[i]).then(function(krogerPrice){
@@ -237,9 +254,7 @@ function createShoppingList() {
 //displays shopping list on page load based off of the saved informaiton in local storage
 function getstoredList() {
   if (localStorage.getItem("shoppingList")) {
-    console.log("retrieved")
     shoppingListItems = JSON.parse(localStorage.getItem("shoppingList"));
-    console.log(shoppingListItems)
     createShoppingList();
   }
 }
@@ -248,7 +263,6 @@ setTimeout (function() {
 }, 1000);
 
 function clearList() {
-  console.log("cleared");
   shoppingListItems = '';
   shoppingList.innerHTML = ''
   window.localStorage.clear();
