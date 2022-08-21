@@ -17,8 +17,6 @@ var clearButton = document.querySelector('.clearBtn');
 
 $(document).ready(function(){
   $('#modal1').modal()
-  // Clearing previous localstorage data when application is running.
-  localStorage.clear();
   });
 
 //access token fetch request
@@ -160,24 +158,25 @@ var requestUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' + mealS
             }
            
             var recipeBtn = document.createElement("a")
-            recipeBtn.classList.add("recipeBtn","btn-floating", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
+            recipeBtn.classList.add("recipeBtn","btn", "btn-medium", "waves-effect", "waves-light", "red", "btn-margin", "modal-trigger");
             recipeBtn.href = "#modal1"
+            recipeBtn.textContent = "Recipe"
             recipeBtn.addEventListener("click", getMealRecipe);
             $(cardContent).append(recipeBtn);
 
             var addIcon = document.createElement("i");
-            addIcon.classList.add("material-icons");
+            addIcon.classList.add("material-icons", "left");
             addIcon.innerHTML = "message";
             $(recipeBtn).append(addIcon);
 
-            var addBtn = document.createElement("a")
-            addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
-            $(cardContent).append(addBtn);
+            // var addBtn = document.createElement("a")
+            // addBtn.classList.add("btn-floating", "btn-medium", "waves-effect", "waves-light", "red","btn-margin");
+            // $(cardContent).append(addBtn);
 
-            var addIcon = document.createElement("i");
-            addIcon.classList.add("material-icons");
-            addIcon.innerHTML = "add";
-            $(addBtn).append(addIcon);
+            // var addIcon = document.createElement("i");
+            // addIcon.classList.add("material-icons");
+            // addIcon.innerHTML = "add";
+            // $(addBtn).append(addIcon);
             }
         }
         else {
@@ -254,13 +253,14 @@ function createShoppingList() {
 //displays shopping list on page load based off of the saved informaiton in local storage
 function getstoredList() {
   if (localStorage.getItem("shoppingList")) {
+    console.log("gettingList")
     shoppingListItems = JSON.parse(localStorage.getItem("shoppingList"));
     createShoppingList();
   }
 }
 setTimeout (function() {
   getstoredList()
-}, 1000);
+}, 2000);
 
 function clearList() {
   shoppingListItems = '';
