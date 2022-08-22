@@ -94,7 +94,7 @@ To clone the Repo. <br/>
 
 Here is the link for application. <br/>
 
-🟢 CLICK HERE &#10145;  
+🟢 CLICK HERE &#10145; https://verzo361219.github.io/Whats-For-Dinner/
 
 
 ## Tools 🔧
