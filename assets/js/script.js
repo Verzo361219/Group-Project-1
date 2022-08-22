@@ -16,6 +16,7 @@ var clearButton = document.querySelector(".clearBtn");
 
 $(document).ready(function () {
   $("#modal1").modal();
+  localStorage.clear();
 });
 
 //access token fetch request

@@ -80,6 +80,6 @@ Here is the link for application. <br/>
 
 ### Credits
 - <a href="https://github.com/Verzo361219"> Brandon Hobbs </a> <br/>
-- <a href="#"> Christian Bruno </a> <br/>
+- <a href="https://github.com/CBrunote"> Christian Bruno </a> <br/>
 - <a href="#"> Latoya Lyew </a> <br/>
 - <a href="https://github.com/VaishaliQA"> Vaishali Patel </a>
