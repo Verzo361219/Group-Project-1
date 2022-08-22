@@ -31,27 +31,23 @@ So that I can plan my meal for the day and the cost of the ingredients. <br/>
 
 GIVEN a Dinner Meal with form input <br/>
 
-WHEN I search for a meal <br/>
-THEN I am presented with options of meals including ingredients, an image, and sample instructions. <br/>
+WHEN I search for an ingredient <br/>
+THEN I am presented with options of meals with that ingredient including a picuture and the name of the meal.
 
-WHEN I enter blank/incorrect meal name in search <br/>
+WHEN I enter blank/incorrect ingredient name in search <br/>
 THEN Error message is displayed to User with empty search results. <br/>
 
 WHEN I select the meal that i want to choose <br/>
-THEN I will have the ingredients listed in a shopping list and the instructions to prepare in separate divs.<br/> 
-And the meal is stored in local storage <br/>
+THEN I will have a receipe card with an image, a link to a youtube video, the ingredients, and instructions. <br/>
 
-WHEN  the ingredients are listed <br/>
-THEN I am presented the price of the ingredients <br/>
+WHEN I click the add to list button <br/>
+THEN I am presented with the list of items and the prices from Kroger and the list is stored in local storage. <br/
 
-WHEN I click the add to cart button <br/>
-THEN I am presented with the ability to purchase the items from Kroger <br/>
-
-WHEN I Click the Random Meal button <br/>
-THEN a Random Meal is chosen and placed in the shopping list/instructions divs as well as local storage. <br/>
+WHEN I refresh the page <br/>
+THEN the list saved in local storage is retrieved and the list is displayed with prices. <br/>
 
 WHEN I click the clear button <br/>
-THEN the meal is removed from local storage and I can start again. <br/>
+THEN the list is removed from local storage and I can start again. <br/>
 
 
 ## Mock-Up
