@@ -30,7 +30,7 @@ var getToken = {
   },
   processData: false,
   data: JSON.stringify({
-    auth: "d2hhdHNmb3JkaW5uZXJ0b25pZ2h0LWRiMGQ5YjM0NjJmM2JjOWVkZmVmMDY5MjQyMTE4ZTA1NDcwNDgxNjA4MjEwNjU4MTQzMTpjN0xkNnB2WFF3alNJa0ZvMVQ4aTdOR3NWcm1oaWVGbUhRRzJkck90",
+    auth: "d2hhdHNmb3JkaW5uZXItMTBiZDVmNDcyOTk4OWI5ZWJlNGIzMjg2Y2QxZDM5ZDI0MzU3Nzk4NjQwNDY4MDkyODI1OmNwWHVDMXNxZXppRldUUmYzMGpQeGtNREdaTUk4Nk1ZYjVwc1BpV0Q=",
     scope: "product.compact",
   }),
 };
@@ -51,8 +51,7 @@ function getKrogerPrice(searchItem) {
       "&filter.locationId=01400943&filter.limit=1",
     method: "GET",
     headers: {
-      "Access-Control-Allow-Origin":
-        "https://verzo361219.github.io/Group-Project-1/",
+      "Access-Control-Allow-Origin": "https://verzo361219.github.io/Whats-For-Dinner/",
       Accept: "application/json",
       Authorization: "Bearer " + token,
     },
@@ -104,7 +103,7 @@ function displayErrorMsg() {
   //dynamic class removed ater 1 seconds
   setTimeout(function () {
     btnTemp.classList.remove("modal-trigger");
-  }, 6000);
+  }, 1000);
 }
 
 function displayMeals(mealSearch) {
